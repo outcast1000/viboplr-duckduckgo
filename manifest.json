@@ -1,0 +1,45 @@
+{
+  "id": "duckduckgo",
+  "name": "DuckDuckGo Images",
+  "version": "0.1.0",
+  "author": "Viboplr",
+  "description": "Artist photos and album covers from DuckDuckGo image search, for the artists and albums the music catalogs don't know. Put it last in Settings → Providers. AI assistants can search web images too.",
+  "minAppVersion": "1.0.85",
+  "stability": "experimental",
+  "homepage": "https://github.com/outcast1000/viboplr-duckduckgo",
+  "updateUrl": "https://github.com/outcast1000/viboplr-duckduckgo/releases/latest/download/update.json",
+  "icon": "M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM21 21l-4.35-4.35M8 13l2-2.5 1.5 1.5L13 10l2 3",
+  "runtime": "worker",
+  "permissions": ["network:duckduckgo.com"],
+  "apiUsage": [
+    { "api": "network.fetch", "reason": "Get a search token from DuckDuckGo's image search page, then the image results for an artist, an album or an assistant's query" }
+  ],
+  "contributes": {
+    "imageProviders": [
+      { "entity": "artist" },
+      { "entity": "album" }
+    ],
+    "assistant": {
+      "instructions": "Web image search through DuckDuckGo (Bing's index). search_images is read-only. Results are whatever pictures sit near the words on the web: titles describe the PAGE, not always the image, and rights are unknown — so check a result is what you wanted (set thumbnails=true to look), credit the site, and set license=share (or stricter) for anything that will be shown or published. For artists, prefer a dedicated source first (commons__search_images for credited photos, deezer__search_art / itunes__search_album_art for official art) and use this when those come up empty. For a cue sheet, never use an image you have not checked against its title and page.",
+      "tools": [
+        {
+          "name": "search_images",
+          "description": "Search the web for images with DuckDuckGo. Returns up to `limit` images with url (full size, on the original site), width, height, title (of the page it came from), pageUrl, site, and thumbUrl when thumbnails=true. Stock-photo and social-media hosts are left out. Read-only.",
+          "readOnly": true,
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "query": { "type": "string", "description": "What to search for, e.g. 'Portishead live 1998' or 'Dummy Portishead album cover'" },
+              "layout": { "type": "string", "enum": ["any", "square", "wide", "tall"], "description": "Image shape (default any). Album covers are square" },
+              "license": { "type": "string", "enum": ["any", "public", "share", "share_commercially", "modify", "modify_commercially"], "description": "Usage-rights filter (default any = rights unknown)" },
+              "minWidth": { "type": "integer", "description": "Skip images narrower than this many pixels (default 500)" },
+              "limit": { "type": "integer", "description": "Most images to return (default 20, max 50)" },
+              "thumbnails": { "type": "boolean", "description": "Also return thumbUrl, a small preview of each image" }
+            },
+            "required": ["query"]
+          }
+        }
+      ]
+    }
+  }
+}
