@@ -1,7 +1,7 @@
 {
   "id": "duckduckgo",
   "name": "DuckDuckGo Images",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Viboplr",
   "description": "Artist photos and album covers from DuckDuckGo image search, for the artists and albums the music catalogs don't know. Put it last in Settings → Providers. AI assistants can search web images too.",
   "minAppVersion": "1.0.85",
